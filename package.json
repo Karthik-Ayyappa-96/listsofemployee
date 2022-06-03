@@ -1,0 +1,26 @@
+{
+  "name": "employeelist",
+  "version": "1.0.0",
+  "description": "employee lists",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "app": "nodemon app",
+    "client": "npm start --prefix client",
+    "both": "concurrently \"npm run app\" \"npm run client\" "
+  },
+  "author": "karthik",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.4",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "nodemon": "^2.0.16"
+  }
+}
