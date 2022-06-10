@@ -23,6 +23,8 @@ import SetReminder from "../../pages/Report/Report";
 import AddCandidate2 from "../../pages/AddCandidateForm/AddCandidate2";
 import EditCandidate from "../../pages/EditCandidate/EditCandidate";
 import Details from "../../pages/Details/Details";
+import AddRecruiter from "../../pages/AddRecruiter/AddRecruiter";
+import AddVendor from "../../pages/AddVendor/AddVendor";
 
 const drawerWidth = 240;
 
@@ -112,6 +114,7 @@ function UserDashboard() {
             <li>
               <Link
                 to="/"
+                style={{textAnchor: "none", textDecorationLine:"none", color: "white"}}
                 onClick={() => localStorage.removeItem("token")}
                 // placeHolder="Logout"
               >
@@ -172,11 +175,11 @@ function UserDashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Switch>
+              <Route index path="/userdashboard/home">
+                <Home />
+              </Route>
               <Route path="/userdashboard/createorders">
                 <CreatreOrder />
-              </Route>
-              <Route exact path="/userdashboard/home">
-                <Home />
               </Route>
               <Route path="/userdashboard/activeorders">
                 <ActiveOrders />
@@ -193,6 +196,12 @@ function UserDashboard() {
               </Route>
               <Route exact path="/userdashboard/details/:id">
                 <Details />
+              </Route>
+              <Route exact path="/userdashboard/addrecruiter">
+                <AddRecruiter />
+              </Route>
+              <Route exact path="/userdashboard/addvendor">
+                <AddVendor />
               </Route>
 
               {/* <Route path="/singleorders" element={<SingleOrder />} /> */}

@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "./details.css";
 // import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Document } from "react-pdf";
 
 const Details = () => {
   const history = useHistory("");
@@ -33,13 +34,10 @@ const Details = () => {
       console.log("error");
     } else {
       setUserdata(data);
-      console.log("get data");
+      console.log("getdata");
     }
   };
 
-  useEffect(() => {
-    getdata();
-  }, []);
 
   const deleteuser = async (id) => {
     const res2 = await fetch(`http://localhost:8003/deleteuser/${id}`, {
@@ -61,6 +59,11 @@ const Details = () => {
     }
   };
 
+  
+  useEffect(() => {
+    getdata(); 
+}, []);
+
   return (
     <div>
       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
@@ -68,23 +71,9 @@ const Details = () => {
 
         <Card>
           <CardContent>
-            <div className="add_btn">
-              <Link to={`/userdashboard/editpage/${getuserdata._id}`}>
-                <Button size="sm" varient="danger">
-                  <EditIcon />
-                </Button>
-              </Link>
-              <Button
-                size="sm"
-                onClick={() => deleteuser(getuserdata._id)}
-                varient="danger"
-              >
-                <DeleteIcon />
-              </Button>
-            </div>
             <div className="row">
               <div className="left_view col-lg-6 col-md-6 col-12">
-                <img src="/profile.png" style={{ width: 50 }} alt="profile" />
+                {/* <img src="/profile.png" style={{ width: 50 }} alt="profile" /> */}
                 <h3 className="mt-3">
                   Recruiter Id:
                   <span>{getuserdata.recruiterId}</span>
@@ -125,8 +114,6 @@ const Details = () => {
                   Interview Date:
                   <span>{getuserdata.interviewDate}</span>
                 </h3>
-              </div>
-              <div className="right_view col-lg-6 col-md-6 col-12">
                 <h3 className="mt-3">
                   Onboard Date:
                   <span>{getuserdata.onboardDate}</span>
@@ -135,6 +122,25 @@ const Details = () => {
                   Any Offer:
                   <span>{getuserdata.anyOffer}</span>
                 </h3>
+              </div>
+              
+              <div className="right_view col-lg-6 col-md-6 col-12">
+
+                          <div className="add_btn">
+                            <Link to={`/userdashboard/editpage/${getuserdata._id}`}>
+                              <Button size="sm" varient="danger">
+                                <EditIcon />
+                              </Button>
+                            </Link>
+                            <Button
+                              size="sm"
+                              onClick={() => deleteuser(getuserdata._id)}
+                              varient="danger"
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          </div>
+
                 <h3 className="mt-3">
                   Offered Company:
                   <span>{getuserdata.offeredCompany}</span>
@@ -170,6 +176,15 @@ const Details = () => {
                 <h3 className="mt-3">
                   Recruiter Comments:
                   <span>{getuserdata.recruitComments}</span>
+                </h3>
+                <h3 className="mt-3">
+                  Resume :<span>{getuserdata.resume}</span>
+                  <Document
+                    file={getuserdata.resume}
+                    // onLoadSuccess={onDocumentLoadSuccess}
+                  />
+                  {/* <Page pageNumber={pageNumber} />
+                  </Document> */}
                 </h3>
               </div>
             </div>

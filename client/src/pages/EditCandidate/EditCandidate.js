@@ -18,6 +18,45 @@ const AnyOffer = [
   },
 ];
 
+const Status = [
+  {
+    value: "Select",
+    label: "Select",
+  },
+  {
+    value: "New",
+    label: "New",
+  },
+  {
+    value: "Inprogress",
+    label: "Inprogress",
+  },
+  {
+    value: "Shortlisted",
+    label: "Sortlisted",
+  },
+  {
+    value: "Rejected",
+    label: "Rejected",
+  },
+  {
+    value: "Interview Inprogress",
+    label: "Interview Inprogress",
+  },
+  {
+    value: "Waiting for Feedback",
+    label: "Waiting for Feedback",
+  },
+  {
+    value: "Selected",
+    label: "Selected",
+  },
+  {
+    value: "Onboard",
+    label: "Onboard",
+  }
+]
+
 const job = [
   {
     value: "-",
@@ -60,8 +99,8 @@ const EditCandidate = () => {
     expectedSalary: "",
     noticePeriod: "",
     status: "",
-    interviewDate: "",
-    onboardDate: "",
+    interviewDate: "Enter",
+    onboardDate: "Enter",
     anyOffer: "",
     offeredCompany: "",
     panId: "",
@@ -233,13 +272,23 @@ const EditCandidate = () => {
             />
             <TextField
               id="outlined-select-currency"
-              required
+              select
               name="status"
               label="Status"
               type="status"
               value={inpval.status}
+              defaultValue={Status.label}
               onChange={changeHandler}
-            />
+              SelectProps={{
+                native: true,
+              }}
+            >
+              {Status.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+              </TextField>
             <TextField
               id="outlined-select-currency"
               required

@@ -6,8 +6,8 @@ const app = express();
 require("./db/conn");
 const users = require("./modals/devusermodal");
 const router = require("./routes/router");
-const devUsers = require("./modals/user");
-const upload = require("./helpers/filehelpers");
+// const devUsers = require("./modals/user");
+// const upload = require("./helpers/filehelpers");
 const path = require("path");
 
 const port = 8003;

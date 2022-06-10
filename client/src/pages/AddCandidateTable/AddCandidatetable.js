@@ -8,34 +8,33 @@ import Paper from "@mui/material/Paper";
 import Title from "../../Component/Title";
 import { Button } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Link, NavLink } from "react-router-dom";
 // import { Button } from "@mui/material";
 // import axios from "axios";
 
 const AddCandidateTable = () => {
-  const [getuserdata, setUserdata] = useState([])
+  const [getuserdata, setUserdata] = useState([]);
   console.log(getuserdata);
-//   const [data, setData] = useState([]);
-//   console.log(data);
-//  useEffect(() => {
-//    axios
-//      .get(
-//        "http://localhost:8003/candidatelist"
-//      )
-//      .then((res) => setData(res.data));
-//  }, []);
-  
+  //   const [data, setData] = useState([]);
+  //   console.log(data);
+  //  useEffect(() => {
+  //    axios
+  //      .get(
+  //        "http://localhost:8003/candidatelist"
+  //      )
+  //      .then((res) => setData(res.data));
+  //  }, []);
+
   const getdata = async (e) => {
     // e.preventDefault();
 
-    
     const res = await fetch("http://localhost:8003/candidatelist", {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     const data = await res.json();
@@ -43,17 +42,16 @@ const AddCandidateTable = () => {
 
     if (res.status === 404 || !data) {
       console.log("error");
-
     } else {
-      setUserdata(data)
+      setUserdata(data);
       console.log("get data");
     }
   };
 
-   useEffect(() => {
-                      getdata(); 
-   }, []);
-  
+  useEffect(() => {
+    getdata();
+  }, []);
+
   const deleteuser = async (id) => {
     const res2 = await fetch(`http://localhost:8003/deleteuser/${id}`, {
       method: "DELETE",
@@ -66,13 +64,12 @@ const AddCandidateTable = () => {
     console.log(deletedata);
 
     if (res2.status === 422 || !deletedata) {
-      console.log("error")
-    }
-    else {
-      console.log("User Deleted...")
+      console.log("error");
+    } else {
+      console.log("User Deleted...");
       getdata();
     }
-  }
+  };
 
   return (
     <>
@@ -110,7 +107,11 @@ const AddCandidateTable = () => {
                           <EditIcon />
                         </Button>
                       </Link>
-                      <Button size="sm" onClick={()=>deleteuser(users._id)} varient="danger">
+                      <Button
+                        size="sm"
+                        onClick={() => deleteuser(users._id)}
+                        varient="danger"
+                      >
                         <DeleteIcon />
                       </Button>
                     </div>

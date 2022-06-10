@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-// import Box from "@mui/material/Box";
-// import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 // import TextField from "@mui/material/TextField";
 // import IconButton from "@mui/material/IconButton";
 // import OutlinedInput from "@mui/material/OutlinedInput";
@@ -9,8 +9,8 @@ import React, { useState } from "react";
 // import Visibility from "@mui/icons-material/Visibility";
 // import VisibilityOff from "@mui/icons-material/VisibilityOff";
 // import InputAdornment from "@mui/material/InputAdornment";
-// import Typography from "@mui/material/Typography";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 // import Button from "@mui/material/Button";
 import { Redirect } from "react-router-dom";
 import "./login.css";
@@ -53,8 +53,8 @@ export default function Login() {
     <div className="container">
       <div className="forms-container">
         <div className="signin-signup">
-          {/* <Box
-            component="form"
+          <Box
+            // component="form"
             sx={{
               // "& .MuiTextField-root":
                 m: "40%", width: "25ch", border: "0.5px solid black" ,
@@ -62,15 +62,15 @@ export default function Login() {
             // onSubmit={submitHandler}
             noValidate
             autoComplete="off"
-          > */}
-          {/* <div>
+          >
+          <div>
               <Avatar sx={{ m: 1, bgcolor: "#0063cc" }}>
                 <LockOutlinedIcon />
               </Avatar>
               <Typography variant="h6" noWrap component="div">
                 Sign In
               </Typography>
-            </div> */}
+            </div>
           <form className="form" onSubmit={submitHandler} autoComplete="off">
             <div className="form-group">
               <input
@@ -94,7 +94,7 @@ export default function Login() {
             <link to="/forgotpassword" text="Forgot Password?" />
             <input type="submit" className="btn btn-primary" value="Login" />
           </form>
-          {/* </Box> */}
+          </Box>
         </div>
       </div>
     </div>

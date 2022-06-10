@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const multer = require('multer');
+const path = require('path');
 
 const userSchema = new mongoose.Schema({
   recruiterId: {
@@ -86,6 +88,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  resume:{
+  //   resume_path:{
+  //   type: String,
+  //     required: true,
+  // },
+  // resume_mimetype:{
+  //   type: String,
+  //     required: true,
+  // }
+}
 });
 
 const users = new mongoose.model("users", userSchema);

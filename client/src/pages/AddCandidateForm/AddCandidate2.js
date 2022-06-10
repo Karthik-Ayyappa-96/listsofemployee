@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "../../Component/Title";
 // import axios from "axios";
-import { Box, Button, TextField, Paper } from "@mui/material";
+import { Box, TextField, Paper, Stack } from "@mui/material";
 import { useHistory } from "react-router-dom";
-// import { Navigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+
+const Input = styled("input")({
+  display: "none",
+});
 
 const AnyOffer = [
   {
@@ -17,6 +22,45 @@ const AnyOffer = [
   {
     value: "NO",
     label: "No",
+  },
+];
+
+const Status = [
+  {
+    value: "Select",
+    label: "Select",
+  },
+  {
+    value: "New",
+    label: "New",
+  },
+  {
+    value: "Inprogress",
+    label: "Inprogress",
+  },
+  {
+    value: "Shortlisted",
+    label: "Sortlisted",
+  },
+  {
+    value: "Rejected",
+    label: "Rejected",
+  },
+  {
+    value: "Interview Inprogress",
+    label: "Interview Inprogress",
+  },
+  {
+    value: "Waiting for Feedback",
+    label: "Waiting for Feedback",
+  },
+  {
+    value: "Selected",
+    label: "Selected",
+  },
+  {
+    value: "Onboard",
+    label: "Onboard",
   },
 ];
 
@@ -43,7 +87,11 @@ const job = [
   },
 ];
 
+
 const AddCandidate2 = () => {
+  const [getuserdata, setUserdata] = useState([]);
+  const [getvendordata, setVendordata] = useState([]);
+  // console.log(getuserdata);
 
   const history = useHistory("");
 
@@ -56,9 +104,9 @@ const AddCandidate2 = () => {
     currentSalary: "",
     expectedSalary: "",
     noticePeriod: "",
-    status: "no data",
-    interviewDate: "no data",
-    onboardDate:"no data",
+    status: "Select",
+    interviewDate: "Enter",
+    onboardDate: "Enter",
     anyOffer: "",
     offeredCompany: "",
     panId: "",
@@ -69,18 +117,18 @@ const AddCandidate2 = () => {
     vendorName: "",
     phoneNo: "",
     recruitComments: "",
+    resume: "",
   });
 
   const changeHandler = (e) => {
-    // setData({ ...data, [e.target.name]: e.target.value });
     console.log(e.target.value);
     const { name, value } = e.target;
     setINP((preval) => {
       return {
         ...preval,
-        [name] : value
-      }
-    })
+        [name]: value,
+      };
+    });
   };
 
   const addinpdata = async (e) => {
@@ -108,6 +156,7 @@ const AddCandidate2 = () => {
       vendorName,
       phoneNo,
       recruitComments,
+      resume,
     } = inpval;
 
     const res = await fetch("http://localhost:8003/candidate", {
@@ -137,6 +186,7 @@ const AddCandidate2 = () => {
         vendorName,
         phoneNo,
         recruitComments,
+        resume,
       }),
     });
 
@@ -146,14 +196,62 @@ const AddCandidate2 = () => {
     if (res.status === 404 || !data) {
       alert("Error");
       console.log("error");
-    }
-    else {
+    } else {
       alert("new candidate added ");
       console.log("New Candidate added");
       history.push("/userdashboard/home");
     }
   };
 
+  const getdata = async (e) => {
+    // e.preventDefault();
+
+    const res = await fetch("http://localhost:8003/recruiterlist", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 404 || !data) {
+      console.log("error");
+    } else {
+      setUserdata(data);
+      console.log("get data");
+    }
+  };
+
+  const getvdata = async (e) => {
+    // e.preventDefault();
+
+    const res = await fetch(" http://localhost:8003/vendorlist", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 404 || !data) {
+      console.log("error");
+    } else {
+      setVendordata(data);
+      console.log("get data");
+    }
+  };
+
+  useEffect(() => {
+    getdata();
+  }, []);
+
+  useEffect(() => {
+    getvdata();
+  }, []);
 
   return (
     <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
@@ -170,18 +268,29 @@ const AddCandidate2 = () => {
         >
           <div>
             <TextField
-              fullWidth
               id="outlined-select-currency"
-              // required
+              select
               name="recruiterId"
               label="Recruiter Id"
               type="recruiterID"
               value={inpval.recruiterId}
+              defaultValue="Recruiter Id"
               onChange={changeHandler}
-            />
+              SelectProps={{
+                native: true,
+              }}
+            >
+              {getuserdata.map((option) => (
+                <option key={option} value={option}>
+                  {option.recruiterId}
+                </option>
+              ))}
+            </TextField>
+            {/* </div> */}
             <TextField
               fullWidth
-              id="outlined-select-currency"
+              id="fullWidth"
+              // id="outlined-select-currency"
               // required
               name="name"
               label="Name"
@@ -190,6 +299,7 @@ const AddCandidate2 = () => {
               onChange={changeHandler}
             />
             <TextField
+              fullWidth
               id="outlined-select-currency"
               // required
               name="email"
@@ -259,9 +369,17 @@ const AddCandidate2 = () => {
               label="Status"
               type="status"
               value={inpval.status}
-              defaultValue="no data"
-              onChange={changeHandler}
-            />
+              defaultValue={Status.label}
+              SelectProps={{
+                native: true,
+              }}
+            >
+              {Status.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </TextField>
             <TextField
               id="outlined-select-currency"
               disabled
@@ -300,6 +418,27 @@ const AddCandidate2 = () => {
                 </option>
               ))}
             </TextField>
+            {
+              (inpval.anyOffer === "defaultValue") ? <TextField
+              id="outlined-select-currency"
+              required
+              name="offeredCompany"
+              label="Offered Company"
+              type="offeredCompany"
+              // value={inpval.offeredCompany}
+              // onChange={changeHandler}
+            /> : 
+            <TextField
+            disabled
+            id="outlined-select-currency"
+            required
+            name="offeredCompany"
+            label="Offered Company"
+            type="offeredCompany"
+            // value={inpval.offeredCompany}
+            // onChange={changeHandler}
+          />
+            }
             <TextField
               id="outlined-select-currency"
               required
@@ -365,15 +504,26 @@ const AddCandidate2 = () => {
               value={inpval.expectedJoinDate}
               onChange={changeHandler}
             />
+
             <TextField
               id="outlined-select-currency"
-              // required
+              select
               name="vendorName"
               label="Vendor Name"
               type="vendorName"
               value={inpval.vendorName}
               onChange={changeHandler}
-            />
+              defaultValue="Vendor Name"
+              SelectProps={{
+                native: true,
+              }}
+            >
+              {getvendordata.map((option) => (
+                <option key={option} value={option.id}>
+                  {option.vendorName}
+                </option>
+              ))}
+            </TextField>
             <TextField
               id="outlined-select-currency"
               multiline
@@ -384,6 +534,40 @@ const AddCandidate2 = () => {
               value={inpval.recruitComments}
               onChange={changeHandler}
             />
+          </div>
+          <div>
+            {/* <Stack direcion="row" alignItems="center" spacing={4}>
+              <label htmlFor="profile-photo">
+                <Input accept="image/*" id="profile-photo" type="file"  />
+                <Button varient="contained" component="span">Upload Photo</Button>
+              </label>
+              <label htmlFor="resume-file">
+                <Input accept="doc/*" id="resume-file" type="file"  />
+                <Button varient="contained" component="span">Upload File</Button>
+              </label>
+            </Stack> */}
+            <Stack direction="row" alignItems="center" spacing={4}>
+              {/* <label htmlFor="contained-button-file">
+        <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={changeHandler} />
+        <Button variant="contained" component="span">
+          Upload Image
+        </Button>
+      </label> */}
+              <label htmlFor="contained-button-file">
+                <Input
+                  accept="doc/*"
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                  name="resume"
+                  value={inpval.resume}
+                  onChange={changeHandler}
+                />
+                <Button variant="contained" component="span">
+                  {/* <PhotoCamera /> */}Upload Resume
+                </Button>
+              </label>
+            </Stack>
           </div>
           <div>
             <Button type="submit" onClick={addinpdata}>

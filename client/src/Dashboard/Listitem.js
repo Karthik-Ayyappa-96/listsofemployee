@@ -5,6 +5,7 @@ import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import ReorderIcon from "@mui/icons-material/Reorder";
 import HistoryIcon from "@mui/icons-material/History";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import "../../src/App.css";
 
 function Listitem() {
@@ -25,6 +26,22 @@ function Listitem() {
             <ReorderIcon />
           </ListItemIcon>
           <ListItemText primary="Add Candidate" />
+        </ListItem>
+      </a>
+      <a href="/userdashboard/addrecruiter" className="Listitem-a">
+        <ListItem button>
+          <ListItemIcon>
+            <AddCircleOutlineIcon />
+          </ListItemIcon>
+          <ListItemText primary="Add Recruiter" />
+        </ListItem>
+      </a>
+      <a href="/userdashboard/addvendor" className="Listitem-a">
+        <ListItem button>
+          <ListItemIcon>
+            <AddCircleOutlineIcon />
+          </ListItemIcon>
+          <ListItemText primary="Add Vendor" />
         </ListItem>
       </a>
       <a href="/userdashboard/setreminder" className="Listitem-a">
