@@ -4,13 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import UserDashboard from "./Dashboard/UserDashboard/UserDashboard";
 import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
-// import CreatreOrder from "./Pages/AddCandidateForm/Form";
-// import Home from "./Pages/Home/Home";
-// import ActiveOrders from "./Pages/Add Candidate Table/AddCandidateTable";
-// import SetReminder from "./Pages/Report/Report";
-// import Edit from "./Pages/EditPage/Edit";
-// import AddCandidate2 from "./Pages/AddCandidateForm/AddCandidate2";
-// import CreatreOrder from "./Pages/AddCandidateForm/Form";
 
 function App() {
   return (
@@ -25,7 +18,7 @@ function App() {
           <Route exact path="/forgotpassword">
             <ForgotPassword />
           </Route>
-          <Route path="/userdashboard/*">
+          <Route path="/userdashboard">
             <UserDashboard />
           </Route>
           {/* <Route path="/userdashboard/addcandidate">

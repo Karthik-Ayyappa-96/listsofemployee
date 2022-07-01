@@ -9,14 +9,15 @@ const router = require("./routes/router");
 // const devUsers = require("./modals/user");
 // const upload = require("./helpers/filehelpers");
 const path = require("path");
+const uploads = require("./modals/upload");
 
 const port = 8003;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.urlencoded({ extended: true} ));
 
 app.use(router);
-app.use("/upload", express.static(path.join(__dirname, "upload")));
+// app.use(uploads.fields([{name: 'file', maxcount: 1}]));
 
 // app.post("/login", async (req, res) => {
 //   try {

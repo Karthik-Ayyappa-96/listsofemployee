@@ -5,12 +5,14 @@ const devUsers = require("../modals/user");
 const multer = require("multer");
 const recruite = require("../modals/recruiter");
 const vendor = require("../modals/vendor");
+const uploads = require("../modals/upload");
+const candidateUser = require("../modals/usermodal");
 
 // router.post("/register", (req, res) => {
 //   console.log(req.body);
 // });
 
-router.post("./login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const exist = await devUsers.findOne({ email });
@@ -36,7 +38,7 @@ const upload = multer({
     },
   }),
   limits: {
-    fileSize: 1000000, // max file size 1MB = 1000000 bytes
+    fileSize: 70000000, // max file size 1MB = 1000000 bytes
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpeg|jpg|png|pdf|doc|docx|xlsx|xls)$/)) {
@@ -50,7 +52,126 @@ const upload = multer({
   },
 });
 
-router.post("/candidate", async (req, res) => {
+//uploads of single  file
+
+router.post("/single", uploads.single("file"), (req, res) => {
+  console.log(req.file);
+  res.send("Single file upload success");
+});
+
+//uploads of multiple  file
+router.post("/multiple", uploads.array("files", 3), (req, res) => {
+  console.log(req.files.filename);
+
+  res.send("multiple file upload success");
+});
+
+router.use("/candidate",uploads.fields([{name: 'file', maxcount: 1}]));
+
+router.post("/candidate",  async (req, res) => {
+  // console.log(req.body);
+  // console.log(req.file);
+  // res.send("hello");
+  
+    const {
+      recruiterId,
+      name,
+      email,
+      totalExperience,
+      relaventExperience,
+      currentSalary,
+      expectedSalary,
+      noticePeriod,
+      status,
+      interviewDate,
+      onboardDate,
+      anyOffer,
+      offeredCompany,
+      panId,
+      uanId,
+      jobRequired,
+      jobDiscription,
+      expectedJoinDate,
+      vendorName,
+      phoneNo,
+      recruitComments,
+      // file,
+    } = req.body;
+    const file = req.files["file"][0].filename;
+    if (
+      recruiterId && 
+      name && 
+      email && 
+      totalExperience && 
+      relaventExperience && 
+      currentSalary && 
+      expectedSalary && 
+      noticePeriod &&
+      status && 
+      interviewDate && 
+      onboardDate &&
+      anyOffer &&
+      offeredCompany &&
+      panId &&
+      uanId &&
+      jobRequired &&
+      jobDiscription &&
+      expectedJoinDate &&
+      vendorName &&
+      phoneNo &&
+      recruitComments &&
+      file
+    )
+    // {
+    //   res.status(404).json("Please fill the data");
+    // }
+    try {
+      const preuser = await users.findOne({ email: email });
+      console.log(preuser);
+  
+      if (preuser) {
+        res.status(404).json("this email aready exists...");
+      } else {
+      const adduser = new candidateUser({
+        recruiterId: recruiterId,
+        name: name,
+        email: email,
+        totalExperience: totalExperience,
+        relaventExperience: relaventExperience,
+        currentSalary: currentSalary,
+        expectedSalary: expectedSalary,
+        noticePeriod: noticePeriod,
+        status: status,
+        interviewDate: interviewDate,
+        onboardDate: onboardDate,
+        anyOffer: anyOffer,
+        offeredCompany: offeredCompany,
+        panId: panId,
+        uanId: uanId,
+        jobRequired: jobRequired,
+        jobDiscription: jobDiscription,
+        expectedJoinDate: expectedJoinDate,
+        vendorName: vendorName,
+        phoneNo: phoneNo,
+        recruitComments: recruitComments,
+        file: file,
+      });
+
+      await adduser.save();
+      res.status(201).json({"status": "success", "message":"Candidate added successfully", adduser});
+      console.log(adduser);
+    } 
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json("Server Error....");
+  }
+});
+
+router.use("/newcandidate",uploads.fields([{name: 'file', maxcount: 1}]));
+
+router.post("/newcandidate", async (req, res) => {
+  
+
   const {
     recruiterId,
     name,
@@ -73,9 +194,9 @@ router.post("/candidate", async (req, res) => {
     vendorName,
     phoneNo,
     recruitComments,
-    resume,
+    // file,
   } = req.body;
-
+  const file = req.files["file"][0].filename;
   if (
     !recruiterId ||
     !name ||
@@ -98,7 +219,7 @@ router.post("/candidate", async (req, res) => {
     !vendorName ||
     !phoneNo ||
     !recruitComments ||
-    !resume
+    !file
   ) {
     res.status(404).json("Please fill the data");
   }
@@ -131,7 +252,7 @@ router.post("/candidate", async (req, res) => {
         vendorName,
         phoneNo,
         recruitComments,
-        resume,
+        file,
       });
 
       await adduser.save();
@@ -148,6 +269,7 @@ router.post("/candidate", async (req, res) => {
 
 router.get("/candidatelist", async (req, res) => {
   try {
+    // const userdata = await candidateUser.find();
     const userdata = await users.find();
     res.status(201).json(userdata);
     console.log(userdata);
@@ -156,7 +278,6 @@ router.get("/candidatelist", async (req, res) => {
     return res.status(500).json("Server Error....");
   }
 });
-
 
 // router.get("/candidatelist", async (req, res) => {
 //   try {
@@ -167,7 +288,6 @@ router.get("/candidatelist", async (req, res) => {
 //     return res.status(500).send("Server Error......");
 //   }
 // });
-
 
 //add recruiter data
 
@@ -259,6 +379,7 @@ router.get("/getuser/:id", async (req, res) => {
   try {
     console.log(req.params);
     let { id } = req.params;
+    // const userindividual = await candidateUser.findById({ _id: id });
     const userindividual = await users.findById({ _id: id });
     console.log(userindividual);
     return res.status(201).json(userindividual);
@@ -274,13 +395,13 @@ router.patch("/updateuser/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
+    // const updateduser = await candidateUser.findByIdAndUpdate(id, req.body, {
     const updateduser = await users.findByIdAndUpdate(id, req.body, {
       new: true,
     });
 
     console.log(updateduser);
     res.status(201).json(updateduser);
-    
   } catch (err) {
     console.log(err);
     return res.status(500).send("Server Error......");
@@ -293,6 +414,7 @@ router.delete("/deleteuser/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
+    // const deleteuser = await candidateUser.findByIdAndDelete({ _id: id });
     const deleteuser = await users.findByIdAndDelete({ _id: id });
 
     console.log(deleteuser);

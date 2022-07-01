@@ -12,26 +12,30 @@ import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import Listitem from "../Listitem";
+import Listitem from "../Listitem/Listitem";
 import DateTime from "../../Component/Date";
 import { Route, Switch, Link } from "react-router-dom";
 import CreatreOrder from "../../pages/AddCandidateForm/AddCandidate2";
 import Home from "../../pages/Home/Home";
 import ActiveOrders from "../../pages/AddCandidateTable/AddCandidatetable";
 import SetReminder from "../../pages/Report/Report";
-// import Edit from "../../Pages/EditPage/Edit";
 import AddCandidate2 from "../../pages/AddCandidateForm/AddCandidate2";
 import EditCandidate from "../../pages/EditCandidate/EditCandidate";
 import Details from "../../pages/Details/Details";
 import AddRecruiter from "../../pages/AddRecruiter/AddRecruiter";
 import AddVendor from "../../pages/AddVendor/AddVendor";
+import Upload from "../../pages/upload/Upload";
+import AddCandidate1 from "../../pages/AddCandidateForm/AddCandidate1";
+import EditCandidate1 from "../../pages/EditCandidate/EditCandidate1";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  backgroundColor: "#b0e4f1",
+  textAnchor:"none",
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -52,6 +56,7 @@ const Drawer = styled(MuiDrawer, {
   "& .MuiDrawer-paper": {
     position: "relative",
     whiteSpace: "nowrap",
+    backgroundColor:"#9dade2",
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
@@ -82,12 +87,12 @@ function UserDashboard() {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex"}}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px", color:"black" // keep right padding when drawer closed
             }}
           >
             <IconButton
@@ -109,18 +114,18 @@ function UserDashboard() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              Arcnas Software Solutions
             </Typography>
-            <li>
+            <ul>
               <Link
                 to="/"
-                style={{textAnchor: "none", textDecorationLine:"none", color: "white"}}
+                style={{textDecoration:"none", color:"black"}}
                 onClick={() => localStorage.removeItem("token")}
                 // placeHolder="Logout"
               >
                 LogOut
               </Link>
-            </li>
+            </ul>
             {/* <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailOutlineIcon />
@@ -157,7 +162,7 @@ function UserDashboard() {
           <Toolbar />
           <Toolbar />
           <br />
-          <List>{<DateTime />}</List>
+          <List sx={{marginLeft: 5}}>{<DateTime />}</List>
         </Drawer>
 
         <Box
@@ -175,7 +180,7 @@ function UserDashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Switch>
-              <Route index path="/userdashboard/home">
+              <Route exact path="/userdashboard/home">
                 <Home />
               </Route>
               <Route path="/userdashboard/createorders">
@@ -184,9 +189,9 @@ function UserDashboard() {
               <Route path="/userdashboard/activeorders">
                 <ActiveOrders />
               </Route>
-              <Route path="/userdashboard/addcandidate">
+              {/* <Route path="/userdashboard/addcandidate">
                 <AddCandidate2 />
-              </Route>
+              </Route> */}
 
               <Route path="/userdashboard/setreminder">
                 <SetReminder />
@@ -203,8 +208,16 @@ function UserDashboard() {
               <Route exact path="/userdashboard/addvendor">
                 <AddVendor />
               </Route>
-
-              {/* <Route path="/singleorders" element={<SingleOrder />} /> */}
+              <Route exact path="/userdashboard/addcandidate">
+                <Upload />
+              </Route>
+              {/* <Route exact path="/userdashboard/upload/:id">
+                <Upload />
+              </Route> */}
+              <Route exact path="/userdashboard/addcandidate1">
+                <AddCandidate1 />
+              </Route>
+             
             </Switch>
           </Container>
         </Box>

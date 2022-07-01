@@ -6,13 +6,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "./details.css";
 // import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Document } from "react-pdf";
+import { Document} from "react-pdf";
 
 const Details = () => {
   const history = useHistory("");
 
   const [getuserdata, setUserdata] = useState([]);
   console.log(getuserdata);
+
+  // const [numPages, setNumPages] = useState(null);
+  // const [pageNumber, setPageNumber] = useState(1);
+
+  // function onDocumentLoadSuccess({ numPages }) {
+  //   setNumPages(numPages);
+  // }
+
 
   const { id } = useParams("");
   console.log(id);
@@ -178,13 +186,14 @@ const Details = () => {
                   <span>{getuserdata.recruitComments}</span>
                 </h3>
                 <h3 className="mt-3">
-                  Resume :<span>{getuserdata.resume}</span>
+                  Resume :
+                  <span>{getuserdata.file}</span>
                   <Document
-                    file={getuserdata.resume}
-                    // onLoadSuccess={onDocumentLoadSuccess}
-                  />
-                  {/* <Page pageNumber={pageNumber} />
-                  </Document> */}
+                    file={getuserdata.file}
+                  //   onLoadSuccess={onDocumentLoadSuccess}
+                 />
+                  {/* <Page pageNumber={pageNumber} /> */}
+                  {/* </Document> */}
                 </h3>
               </div>
             </div>

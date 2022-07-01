@@ -1,16 +1,10 @@
+import { Box, Input, Paper, TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Title from "../../Component/Title";
-// import axios from "axios";
-import { Box, TextField, Paper, Stack } from "@mui/material";
+import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-
-const Input = styled("input")({
-  display: "none",
-});
 
 const AnyOffer = [
   {
@@ -89,151 +83,151 @@ const job = [
   },
 ];
 
-
-const AddCandidate2 = () => {
+const Upload = () => {
   const [getuserdata, setUserdata] = useState([]);
   const [getvendordata, setVendordata] = useState([]);
-  // console.log(getuserdata);
-
-  let formData = new FormData();
 
   const history = useHistory("");
 
-  const [inpval, setINP] = useState({
-    recruiterId: "",
-    name: "",
-    email: "",
-    totalExperience: "",
-    relaventExperience: "",
-    currentSalary: "",
-    expectedSalary: "",
-    noticePeriod: "",
-    status: "Select",
-    interviewDate: "",
-    onboardDate: "",
-    anyOffer: "",
-    offeredCompany: "",
-    panId: "",
-    uanId: "",
-    jobRequired: "",
-    jobDiscription: "",
-    expectedJoinDate: "",
-    vendorName: "",
-    phoneNo: "",
-    recruitComments: "",
-    file: "",
-  });
+  const [recruiterId, setRecruiterId] = useState();
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [phoneNo, setPhoneNo] = useState();
+  const [totalExperience, setTotalExperience] = useState();
+  const [relaventExperience, setRelaventExperience] = useState();
+  const [currentSalary, setCurrentSalary] = useState();
+  const [expectedSalary, setExpectedSalary] = useState();
+  const [noticePeriod, setNoticePeriod] = useState();
+  const [status, setStatus] = useState();
+  const [interviewDate, setInterviewDate] = useState();
+  const [onboardDate, setOnboardDate] = useState();
+  const [anyOffer, setAnyOffer] = useState();
+  const [offeredCompany, setOfferedCompany] = useState();
+  const [panId, setPanId] = useState();
+  const [uanId, setUanId] = useState();
+  const [jobRequired, setJobRequired] = useState();
+  const [jobDiscription, setJobDiscription] = useState();
+  const [expectedJoinDate, setExpectedJoinDate] = useState();
+  const [vendorName, setVendorName] = useState();
+  const [recruitComments, setRecruitComments] = useState();
+  const [file, setFile] = useState(null);
 
-  // const [rdoc, setRdoc] = useState({ file: "" });
+  const onFormsubmit = (e) => {
+    e.preventDefault();
 
-  const changeHandler = (e) => {
-    console.log(e.target.value);
-    const { name, value } = e.target;
-    setINP((preval) => {
-      return {
-        ...preval,
-        [name]: value,
-      };
-    });
+    let formData = new FormData();
+    formData.append("recruiterId", recruiterId);
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("totalExperience", totalExperience);
+    formData.append("relaventExperience", relaventExperience);
+    formData.append("currentSalary", currentSalary);
+    formData.append("expectedSalary", expectedSalary);
+    formData.append("noticePeriod", noticePeriod);
+    formData.append("status", status);
+    formData.append("interviewDate", interviewDate);
+    formData.append("onboardDate", onboardDate);
+    formData.append("anyOffer", anyOffer);
+    formData.append("offeredCompany", offeredCompany);
+    formData.append("panId", panId);
+    formData.append("uanId", uanId);
+    formData.append("jobRequired", jobRequired);
+    formData.append("jobDiscription", jobDiscription);
+    formData.append("expectedJoinDate", expectedJoinDate);
+    formData.append("vendorName", vendorName);
+    formData.append("phoneNo", phoneNo);
+    formData.append("recruitComments", recruitComments);
+    formData.append("file", file);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    axios
+      .post("http://localhost:8003/newcandidate", formData)
+      .then((response) => {
+        alert("File Uploaded Successfully...!");
+        history.push("/userdashboard/home");
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
   };
 
-  // const fileChange = (e) => {
-  //   // console.log(e.target.files[0]);
-  //   const { name, files } = e.target;
-  //   setINP(() => {
-  //     return {
-  //       [name]: files[0]
-  //     }
-  //   })
-  // }
+  const RecruiterIdHandler = (e) => {
+    setRecruiterId(e.target.value);
+  }
+  const NameHandler = (e) => {
+    setName(e.target.value);
+  }
+  const EmailHandler = (e) => {
+    setEmail(e.target.value);
+  }
+  const TotalExperiencHandler = (e) => {
+    setTotalExperience(e.target.value);
+  }
+  const RelaventExperienceHandler = (e) => {
+    setRelaventExperience(e.target.value);
+  }
+  const CurrentSalaryHandler = (e) => {
+    setCurrentSalary(e.target.value);
+  }
+  const ExpectedSalaryHandler = (e) => {
+    setExpectedSalary(e.target.value);
+  }
+  const NoticePeriodHandler = (e) => {
+    setNoticePeriod(e.target.value);
+  }
+  const StatusHandler = (e) => {
+    setStatus(e.target.value);
+  }
+  const InterviewDateHandler = (e) => {
+    setInterviewDate(e.target.value);
+  }
+  const OnboardDateHandler = (e) => {
+    setOnboardDate(e.target.value);
+  }
+  const AnyOfferHandler = (e) => {
+    setAnyOffer(e.target.value);
+  }
+  const OfferedCompanyHandler = (e) => {
+    setOfferedCompany(e.target.value);
+  }
+  const PanIdHandler = (e) => {
+    setPanId(e.target.value);
+  }
+  const UanIdHandler = (e) => {
+    setUanId(e.target.value);
+  }
+  const JobRequiredHandler = (e) => {
+    setJobRequired(e.target.value);
+  }
+  const JobDiscriptionHandler = (e) => {
+    setJobDiscription(e.target.value);
+  }
+  const VendorNameHandler = (e) => {
+    setVendorName(e.target.value);
+  }
+  const PhoneNoHandler = (e) => {
+    setPhoneNo(e.target.value);
+  }
+  const RecruitCommentsHandler = (e) => {
+    setRecruitComments(e.target.value);
+  }
+  const ExpectedJoinDateHandler = (e) => {
+    setExpectedJoinDate(e.target.value);
+  }
+  
 
   const fileChange = (e) => {
     console.log(e.target.files[0]);
-    // const { name, files } = e.target;
-    // setINP(() => {
-    //   return {
-    //     [name]: files[0]
-    //   }
-    // })
-    if (e.target && e.target.files[0]) {
-      formData.append("file", e.target.files[0]);
-    }
+    setFile(e.target.files[0]);
+
+    // if (e.target && e.target.files[0]) {
+    //   formData.append("file", e.target.files[0]);
+    // }
   };
 
-  const addinpdata = async (e) => {
-    e.preventDefault();
-
-    const {
-      recruiterId,
-      name,
-      email,
-      totalExperience,
-      relaventExperience,
-      currentSalary,
-      expectedSalary,
-      noticePeriod,
-      status,
-      interviewDate,
-      onboardDate,
-      anyOffer,
-      offeredCompany,
-      panId,
-      uanId,
-      jobRequired,
-      jobDiscription,
-      expectedJoinDate,
-      vendorName,
-      phoneNo,
-      recruitComments,
-      file,
-    } = inpval;
-
-    
-    // const { file } = rdoc;
-
-    const res = await fetch("http://localhost:8003/candidate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        recruiterId,
-        name,
-        email,
-        totalExperience,
-        relaventExperience,
-        currentSalary,
-        expectedSalary,
-        noticePeriod,
-        status,
-        interviewDate,
-        onboardDate,
-        anyOffer,
-        offeredCompany,
-        panId,
-        uanId,
-        jobRequired,
-        jobDiscription,
-        expectedJoinDate,
-        vendorName,
-        phoneNo,
-        recruitComments,
-        file,
-      }),
-    });
-
-    const data = await res.json();
-    console.log(data);
-
-    if (res.status === 404 || !data) {
-      alert("Error");
-      console.log("error");
-    } else {
-      alert("new candidate added ");
-      console.log("New Candidate added");
-      history.push("/userdashboard/home");
-    }
-  };
 
   const getdata = async (e) => {
     // e.preventDefault();
@@ -287,44 +281,33 @@ const AddCandidate2 = () => {
 
   return (
     <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-      <div>
-        <Title>Add Candidate Form</Title>
+      <form onSubmit={onFormsubmit}>
+        <Title>Add Candidate</Title>
         <Box
-          // component="form"
-          // enctype="multipart/form-data"
-          onSubmit={addinpdata}
           sx={{
             "& .MuiTextField-root": { m: 1, width: "25ch" },
           }}
           noValidate
           autoComplete="off"
         >
-          <form 
-          // onSubmit={addinpdata}
-          // action="/candidate"
-          // encType="multipart/form-data"
-          //   method="post"
-           >
-          <div className="form-group">
+          <div>
             <TextField
               id="outlined-select-currency"
               select
               label="Recruiter Id"
               name="recruiterId"
-              value={inpval.recruiterId}
-              // defaultValue={AnyOffer.label}
-              onChange={changeHandler}
+              // value={recruiterId}
+              onChange={RecruiterIdHandler}
               SelectProps={{
                 native: true,
               }}
-            >
+              >
               {getuserdata.map((offer) => (
                 <option key={offer.id} value={offer.value}>
                   {offer.recruiterId}
                 </option>
               ))}
             </TextField>
-            {/* </div> */}
             <TextField
               fullWidth
               id="fullWidth"
@@ -333,72 +316,65 @@ const AddCandidate2 = () => {
               name="name"
               label="Name"
               type="name"
-              value={inpval.name}
-              onChange={changeHandler}
+              // value={name}
+              onChange={NameHandler}
             />
             <TextField
               fullWidth
               id="outlined-select-currency"
-              // required
               name="email"
               label="Email"
               type="email"
-              value={inpval.email}
-              onChange={changeHandler}
+              // value={email}
+              onChange={EmailHandler}
             />
             <TextField
               id="outlined-select-currency"
-              // required
               name="phoneNo"
               label="Ph.No"
               type="phoneNo"
-              value={inpval.phoneNo}
-              onChange={changeHandler}
+              // value={phoneNo}
+              onChange={PhoneNoHandler}
             />
             <TextField
               id="outlined-select-currency"
-              // required
               name="totalExperience"
               label="Total Experience"
               type="totalExperience"
-              value={inpval.totalExperience}
-              onChange={changeHandler}
+              // value={totalExperience}
+              onChange={TotalExperiencHandler}
             />
             <TextField
               id="outlined-select-currency"
-              // required
               name="relaventExperience"
               label="Relavent Experience"
               type="relaventExperience"
-              value={inpval.relaventExperience}
-              onChange={changeHandler}
+              // value={relaventExperience}
+              onChange={RelaventExperienceHandler}
             />
             <TextField
               id="outlined-select-currency"
-              // required
               name="currentSalary"
               label="Current Salary"
               type="currentSalary"
-              value={inpval.currentSalary}
-              onChange={changeHandler}
+              // value={currentSalary}
+              onChange={CurrentSalaryHandler}
             />
             <TextField
               id="outlined-select-currency"
-              // required
               name="expectedSalary"
               label="Expected Salary"
               type="expectedSalary"
-              value={inpval.expectedSalary}
-              onChange={changeHandler}
+              // value={expectedSalary}
+              onChange={ExpectedSalaryHandler}
             />
             <TextField
               id="outlined-select-currency"
-              // required
               name="noticePeriod"
               label="Notice Period"
               type="noticePeriod"
-              value={inpval.noticePeriod}
-              onChange={changeHandler}
+              // value={noticePeriod}
+              onChange={NoticePeriodHandler}
             />
             <TextField
               id="outlined-select-currency"
@@ -406,16 +382,14 @@ const AddCandidate2 = () => {
               name="status"
               label="Status"
               type="status"
-              value={inpval.status}
-              // defaultValue={Status.label}
+              onChange={StatusHandler}
+              // value={status}
               SelectProps={{
                 native: true,
               }}
             >
               {Status.map((status) => (
-                <option key={status.id} >
-                  {status.label}
-                </option>
+                <option key={status.id}>{status.label}</option>
               ))}
             </TextField>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -424,10 +398,9 @@ const AddCandidate2 = () => {
                 id="date"
                 label="InterView Date"
                 type="date"
-                // defaultValue="no data"
-                value={inpval.interviewDate}
+                // value={interviewDate}
                 sx={{ width: 220 }}
-                onChange={changeHandler}
+                onChange={InterviewDateHandler}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -437,10 +410,9 @@ const AddCandidate2 = () => {
                 id="date"
                 label="Onboard date"
                 type="date"
-                // defaultValue="no data"
-                value={inpval.onboardDate}
+                // value={onboardDate}
                 sx={{ width: 220 }}
-                onChange={changeHandler}
+                onChange={OnboardDateHandler}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -451,9 +423,8 @@ const AddCandidate2 = () => {
               select
               label="Any Offer"
               name="anyOffer"
-              value={inpval.anyOffer}
-              // defaultValue={AnyOffer.label}
-              onChange={changeHandler}
+              // value={anyOffer}
+              onChange={AnyOfferHandler}
               SelectProps={{
                 native: true,
               }}
@@ -464,15 +435,15 @@ const AddCandidate2 = () => {
                 </option>
               ))}
             </TextField>
-            
+
             <TextField
               id="outlined-select-currency"
               // required
               name="offeredCompany"
               label="Offered Company"
               type="offeredCompany"
-              value={inpval.offeredCompany}
-              onChange={changeHandler}
+              // value={offeredCompany}
+              onChange={OfferedCompanyHandler}
             />
             <TextField
               id="outlined-select-currency"
@@ -480,8 +451,8 @@ const AddCandidate2 = () => {
               name="panId"
               label="Pan Id"
               type="panId"
-              value={inpval.panId}
-              onChange={changeHandler}
+              // value={panId}
+              onChange={PanIdHandler}
             />
             <TextField
               id="outlined-select-currency"
@@ -489,8 +460,8 @@ const AddCandidate2 = () => {
               name="uanId"
               label="Uan Id"
               type="uanId"
-              value={inpval.uanId}
-              onChange={changeHandler}
+              // value={uanId}
+              onChange={UanIdHandler}
             />
             <TextField
               id="outlined-select-currency"
@@ -498,8 +469,8 @@ const AddCandidate2 = () => {
               type="jobRequired"
               label="Job Required"
               name="jobRequired"
-              value={inpval.jobRequired}
-              onChange={changeHandler}
+              // value={jobRequired}
+              onChange={JobRequiredHandler}
               SelectProps={{
                 native: true,
               }}
@@ -513,12 +484,11 @@ const AddCandidate2 = () => {
             <TextField
               multiline
               id="outlined-select-currency"
-              // required
               name="jobDiscription"
               label="Job Discription"
               type="jobDiscription"
-              value={inpval.jobDiscription}
-              onChange={changeHandler}
+              // value={jobDiscription}
+              onChange={JobDiscriptionHandler}
             />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <TextField
@@ -526,9 +496,9 @@ const AddCandidate2 = () => {
                 name="expectedJoinDate"
                 label="Expected Join Date"
                 type="Date"
-                value={inpval.expectedJoinDate}
+                // value={expectedJoinDate}
                 sx={{ width: 220 }}
-                onChange={changeHandler}
+                onChange={ExpectedJoinDateHandler}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -541,9 +511,8 @@ const AddCandidate2 = () => {
               name="vendorName"
               label="Vendor Name"
               type="vendorName"
-              value={inpval.vendorName}
-              onChange={changeHandler}
-              // defaultValue="Vendor Name"
+              // value={vendorName}
+              onChange={VendorNameHandler}
               SelectProps={{
                 native: true,
               }}
@@ -557,63 +526,28 @@ const AddCandidate2 = () => {
             <TextField
               id="outlined-select-currency"
               multiline
-              // required
               name="recruitComments"
               label="Recruit Comments"
               type="recruitComments"
-              value={inpval.recruitComments}
-              onChange={changeHandler}
+              // value={FormData.recruitComments}
+              onChange={RecruitCommentsHandler}
             />
           </div>
           <div>
-            {/* <Stack direcion="row" alignItems="center" spacing={4}>
-              <label htmlFor="profile-photo">
-                <Input accept="image/*" id="profile-photo" type="file"  />
-                <Button varient="contained" component="span">Upload Photo</Button>
-              </label>
-              <label htmlFor="resume-file">
-                <Input accept="doc/*" id="resume-file" type="file"  />
-                <Button varient="contained" component="span">Upload File</Button>
-              </label>
-            </Stack> */}
-            <Stack direction="row" alignItems="center" spacing={4}>
-              {/* <label htmlFor="contained-button-file">
-        <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={changeHandler} />
-        <Button variant="contained" component="span">
-          Upload Image
-        </Button>
-      </label> */}
-              <label htmlFor="contained-button-file">
-                <Input
-                  accept="doc/*"
-                  id="contained-button-file"
-                  // class="form-control-file"
-                  // multiple
-                  type="file"
-                  name="file_upload"
-                  // value={rdoc.file}
-                  value={inpval.file}
-                  // onChange={changeHandler}
-                  onChange={fileChange}
-                />
-                <Button variant="contained" component="span">
-                  {/* <PhotoCamera /> */}Upload Resume
-                </Button>
-              </label>
-            </Stack>
+            <Input
+              type="file"
+              name="file"
+              onChange={fileChange}
+              label="Upload"
+            />
+            <div>
+              <button type="submit">Submit</button>
+            </div>
           </div>
-          <div>
-            <Button type="submit" 
-            // onSubmit={addinpdata}
-             className="btn btn-default" >
-              Save
-            </Button>
-          </div>
-          </form>
         </Box>
-      </div>
+      </form>
     </Paper>
   );
 };
 
-export default AddCandidate2;
+export default Upload;

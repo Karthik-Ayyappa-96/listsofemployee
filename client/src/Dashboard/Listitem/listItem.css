@@ -1,0 +1,13 @@
+.list-a{
+    color: rgb(20, 19, 20);
+  }
+
+  .list-a:hover{
+    color: #b0e4f1;
+    text-decoration-line: none;
+  }
+  
+  /* .Listitem{
+    background-color: blueviolet;
+  } */
+

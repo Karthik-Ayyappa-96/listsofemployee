@@ -21,16 +21,27 @@ export default function Login() {
   const [data, setData] = useState({
     email: "",
     password: "",
-    showPassword: true,
+    // showPassword: true,
   });
 
+  // const changeHandler = (e) => {
+  //   setData({ ...data, [e.target.name]: e.target.value });
+  // };
+
   const changeHandler = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    console.log(e.target.value);
+    const { name, value } = e.target;
+    setData((preval) => {
+      return {
+        ...preval,
+        [name]: value,
+      };
+    });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5000/login", data).then(
+    axios.post("http://localhost:8003/login", data).then(
       (res) =>
         // console.log(res)
         res.data,
@@ -46,7 +57,7 @@ export default function Login() {
   // or
 
   if (auth) {
-    return <Redirect to="/userdashboard/*" />;
+    return <Redirect to="/userdashboard/home" />;
   }
 
   return (

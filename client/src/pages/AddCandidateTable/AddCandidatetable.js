@@ -88,8 +88,8 @@ const AddCandidateTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {getuserdata.map((users) => (
-                <TableRow key={users}>
+              {getuserdata.map((users, index) => (
+                <TableRow key={index}>
                   <TableCell>{users.recruiterId}</TableCell>
                   <TableCell>{users.name}</TableCell>
                   <TableCell>{users.phoneNo}</TableCell>
